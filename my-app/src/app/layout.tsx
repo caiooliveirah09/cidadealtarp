@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Session from "./session";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Session>
+        <body className={`${inter.className} bg-slate-800 text-slate-50`}>
+          {children}
+        </body>
+      </Session>
     </html>
   );
 }
