@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - mynetwork
+
+  frontend:
+    build: ./my-app
+    restart: always
+    ports:
+      - '3000:3000'
+    expose:
+      - '3000'
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
+  backend:
+    build: ./api
+    restart: always
+    ports:
+      - '3001:3001'
+    expose:
+      - '3001'
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+volumes:
+  my-db:
+
+networks:
+  mynetwork:
+    driver: bridge
